@@ -1,27 +1,19 @@
-//
-// Created for MyBooks
-// by  Stewart Lynch on 2023-10-03
-//
-// Follow me on Mastodon: @StewartLynch@iosdev.space
-// Follow me on Threads: @StewartLynch (https://www.threads.net)
-// Follow me on X: https://x.com/StewartLynch
-// Subscribe on YouTube: https://youTube.com/@StewartLynch
-// Buy me a ko-fi:  https://ko-fi.com/StewartLynch
-
 
 import SwiftUI
 import SwiftData
 
 @Model
+
 class Book {
-    var title: String
-    var author: String
-    var dateAdded: Date
-    var dateStarted: Date
-    var dateCompleted: Date
-    var summary: String
-    var rating: Int?
-    var status: Status
+    
+    var title: String         // titulo do livro
+    var author: String        // autor do livro
+    var dateAdded: Date       // data que adicionou livro
+    var dateStarted: Date     // data que começou a ler
+    var dateCompleted: Date   // data que terminou de ler
+    var summary: String       // resumo do livro
+    var rating: Int?          // nota do livro (opcional)
+    var status: Status        // status da leitura
     
     init(
         title: String,
@@ -43,7 +35,7 @@ class Book {
         self.status = status
     }
     
-    var icon: Image {
+    var icon: Image {    // icon para cada status da leitura
         switch status {
         case .onShelf:
             Image(systemName: "checkmark.diamond.fill")
@@ -55,20 +47,25 @@ class Book {
     }
 }
 
-
 enum Status: Int, Codable, Identifiable, CaseIterable {
+    
     case onShelf, inProgress, completed
+    
     var id: Self {
+        
         self
+        
     }
     var descr: String {
+        
         switch self {
+            
         case .onShelf:
-            "On Shelf"
+            "Na prateleira"
         case .inProgress:
-            "In Progress"
+            "Lendo"
         case .completed:
-            "Completed"
+            "Leitura concluída"
         }
     }
 }

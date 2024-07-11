@@ -1,4 +1,3 @@
-// https://gist.github.com/StewartLynch/03372c873fef568e0a613a968adbae69
 
 import SwiftUI
 

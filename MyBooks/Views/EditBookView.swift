@@ -1,19 +1,12 @@
-//
-// Created for MyBooks
-// by  Stewart Lynch on 2023-10-03
-//
-// Follow me on Mastodon: @StewartLynch@iosdev.space
-// Follow me on Threads: @StewartLynch (https://www.threads.net)
-// Follow me on X: https://x.com/StewartLynch
-// Subscribe on YouTube: https://youTube.com/@StewartLynch
-// Buy me a ko-fi:  https://ko-fi.com/StewartLynch
-
 
 import SwiftUI
 
 struct EditBookView: View {
+    
     @Environment(\.dismiss) private var dismiss
+    
     let book: Book
+    
     @State private var status = Status.onShelf
     @State private var rating: Int?
     @State private var title = ""
@@ -25,8 +18,10 @@ struct EditBookView: View {
     @State private var firstView = true
     
     var body: some View {
+        
         HStack {
             Text("Status")
+            
             Picker("Status", selection: $status) {
                 ForEach(Status.allCases) { status in
                     Text(status.descr).tag(status)
@@ -35,24 +30,25 @@ struct EditBookView: View {
             .buttonStyle(.bordered)
         }
         VStack(alignment: .leading) {
+            
             GroupBox {
                 LabeledContent {
                     DatePicker("", selection: $dateAdded, displayedComponents: .date)
                 } label: {
-                    Text("Date Added")
+                    Text("Data Adicionado")
                 }
                 if status == .inProgress || status == .completed {
                     LabeledContent {
                         DatePicker("", selection: $dateStarted, in: dateAdded..., displayedComponents: .date)
                     } label: {
-                        Text("Date Started")
+                        Text("Começou a ler")
                     }
                 }
                 if status == .completed {
                     LabeledContent {
                         DatePicker("", selection: $dateCompleted, in: dateStarted..., displayedComponents: .date)
                     } label: {
-                        Text("Date Completed")
+                        Text("Leitura completa")
                     }
                 }
             }
@@ -79,24 +75,29 @@ struct EditBookView: View {
                     firstView = false
                 }
             }
+            
             Divider()
+            
             LabeledContent {
                 RatingsView(maxRating: 5, currentRating: $rating, width: 30)
             } label: {
-                Text("Rating")
+                Text("Avaliação")
             }
             LabeledContent {
                 TextField("", text: $title)
             } label: {
-                Text("Title").foregroundStyle(.secondary)
+                Text("Título").foregroundStyle(.secondary)
             }
             LabeledContent {
                 TextField("", text: $author)
             } label: {
-                Text("Author").foregroundStyle(.secondary)
+                Text("Autor(a)").foregroundStyle(.secondary)
             }
+            
             Divider()
-            Text("Summary").foregroundStyle(.secondary)
+            
+            Text("Resumo").foregroundStyle(.secondary)
+            
             TextEditor(text: $summary)
                 .padding(5)
                 .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color(uiColor: .tertiarySystemFill), lineWidth: 2))
@@ -107,7 +108,7 @@ struct EditBookView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             if changed {
-                Button("Update") {
+                Button("Salvar") {
                     book.status = status
                     book.rating = rating
                     book.title = title
@@ -145,8 +146,10 @@ struct EditBookView: View {
     }
 }
 
-//#Preview {
-//    NavigationStack {
-//        EditBookView()
-//    }
-//}
+#Preview {
+    let preview = Preview()
+    return NavigationStack {
+        EditBookView(book: Book.sampleBooks[0])
+            .modelContainer(preview.container)
+    }
+}
